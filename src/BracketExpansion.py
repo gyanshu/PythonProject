@@ -4,6 +4,37 @@
 
 # with regex
 
+'''
+Regex Explanation
+For extracting the content inside the curly braces, we could use something like:
+
+python
+Copy
+Edit
+r"\{([^{}]+)\}"
+Let's break this down:
+
+\{:
+The backslash (\) is used to escape the opening curly brace {. In regular expressions, { is a special character, so we need to escape it to treat it as a literal character. This matches the literal {.
+
+([^{}]+):
+This is the core part of the regex, and it matches the content inside the curly braces.
+
+[^{}]: This is a character class (denoted by []), and it matches any character except { and }. The ^ inside the square brackets negates the set, meaning "not" these characters. This ensures that we don't match nested or malformed braces.
++: This quantifier means "one or more" of the preceding character class. So, it matches one or more characters that are neither { nor }.
+This part ensures we capture all content inside the braces.
+\}:
+Again, the backslash escapes the closing curly brace } so that it is treated as a literal character. This matches the literal }.
+
+Summary:
+\{ and \}: Match the literal { and } characters.
+([^{}]+): Captures one or more characters inside the curly braces, ensuring that the characters are not { or } (i.e., they are valid content).
+Example:
+For the input string "/2022/{jan,feb,march}/report", the regex would match jan,feb,march (the content inside the braces).
+
+If we apply this regex, it will give us the matched group (the content between the braces), which we can then split by commas to generate the expanded expressions.
+'''
+
 import re
 
 def bracket_expansion(expression):
