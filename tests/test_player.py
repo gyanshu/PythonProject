@@ -17,16 +17,24 @@ def test_player_initialization(player):
         raise TypeError
 
 
-def test_player_name_assignment():
-    player = Player(name="Bob", age=30)
+def test_player_name_assignment(player):
     assert player.name == "Bob"
     assert player.player_gender == "Male"
 
 
-def test_player_age_assignment():
-    player = Player(name="Charlie", age=20)
+def test_player_age_assignment(player):
     assert player.age == 20
 
 @pytest.mark.skip(reason="Not implemented yet")
 def test_player():
     assert False
+
+
+'''
+1. coding - 
+2. HLD - 45 mins
+3. bug squash - public git repo, debug, debugger, stack trace - 1 hr
+4. integration - sample data, external APIs integration, coding, correctness, abstractions, readable, interaction collaboration - 1 hr
+5. HM - tell me a time - past experience - 45 mins
+'''
+
