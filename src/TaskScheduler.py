@@ -6,8 +6,8 @@ from queue import PriorityQueue
 
 # Base class for scheduled tasks
 class ScheduledTask:
-    def __init__(self, execution_time: float, context):
-        self.execution_time = execution_time
+    def __init__(self, arrival_time: float, context):
+        self.arrival_time = arrival_time
         self.context = context
 
     def execute(self):
@@ -20,12 +20,12 @@ class ScheduledTask:
         raise NotImplementedError
 
     def __lt__(self, other):
-        return self.execution_time < other.execution_time
+        return self.arrival_time < other.arrival_time
 
 # One-time task
 class OneTimeTask(ScheduledTask):
-    def __init__(self, execution_time: float, context):
-        super().__init__(execution_time, context)
+    def __init__(self, arrival_time: float, context):
+        super().__init__(arrival_time, context)
 
     def is_recurring(self) -> bool:
         return False
@@ -35,15 +35,15 @@ class OneTimeTask(ScheduledTask):
 
 # Recurring task
 class RecurringTask(ScheduledTask):
-    def __init__(self, execution_time: float, interval: float, context):
-        super().__init__(execution_time, context)
+    def __init__(self, arrival_time: float, interval: float, context):
+        super().__init__(arrival_time, context)
         self.interval = interval
 
     def is_recurring(self) -> bool:
         return True
 
     def next_scheduled_task(self) -> Optional["ScheduledTask"]:
-        return RecurringTask(self.execution_time + self.interval, self.interval, self.context)
+        return RecurringTask(self.arrival_time + self.interval, self.interval, self.context)
 
 # Execution context
 class ExecutionContext:
@@ -87,7 +87,7 @@ class TaskRunner(threading.Thread):
             task = self.task_store.poll()
             if task:
                 now = time.time()
-                delay = task.execution_time - now
+                delay = task.arrival_time - now
                 if delay > 0:
                     time.sleep(delay)
 
